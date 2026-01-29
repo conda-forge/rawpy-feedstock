@@ -1,5 +1,5 @@
 {% set name = "rawpy" %}
-{% set version = "0.25.1" %}
+{% set version = "0.26.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,12 +7,12 @@ package:
 
 source:
   url: https://github.com/letmaik/rawpy/archive/v{{ version }}.tar.gz
-  sha256: 664d9d2d6c1692f1c129fc24ea9c430552f915853cd53ec76f5ad4d9b0a401f9
+  sha256: fd901b0a5db30205fd97cbe3c7616fcbc9dd8bfaaa5ad1d6312aa7e1983eb753
   patches:
     - patches/0001-Fix-include-path.patch
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
