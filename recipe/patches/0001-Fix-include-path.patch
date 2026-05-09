@@ -1,33 +1,62 @@
-From 1bcfb8888548772fba5de34033e9a261e5831dc8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jeongseok Lee <jeongseok@meta.com>
-Date: Tue, 1 Apr 2025 08:51:37 -0700
-Subject: [PATCH] Fix include path
+Date: Sat, 9 May 2026 14:42:00 -0700
+Subject: [PATCH] Use conda LibRaw paths on Windows
 
 ---
- setup.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ setup.py | 31 +++++++++++++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
 
 diff --git a/setup.py b/setup.py
-index 1017af6..fea02db 100644
+index 2dcab62..5cd7fd6 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -112,6 +112,16 @@ if isWindows:
- # this must be after use_pkg_config()!
- include_dirs += [numpy.get_include()]
+@@ -84,6 +84,31 @@
+     _ask_pkg_config(libraries, "--libs-only-l", "-l")
  
-+if useSystemLibraw:
+ 
++def use_conda_libraw():
 +    prefix = os.environ.get("PREFIX")
 +    if not prefix:
-+        raise RuntimeError("Environment variable PREFIX is not defined; this package must be built in a conda environment.")
++        raise RuntimeError(
++            "Environment variable PREFIX is not defined; this package must be "
++            "built in a conda environment."
++        )
++
 +    if isWindows:
-+        prefix = os.path.join(prefix, 'Library')
-+    include_dirs += [os.path.join(prefix, "include", "libraw")]
-+    library_dirs += [os.path.join(prefix, "lib")]
-+    libraries = ['raw_r']
++        prefix = os.path.join(prefix, "Library")
++
++    include_dirs.extend(
++        [
++            os.path.join(prefix, "include"),
++            os.path.join(prefix, "include", "libraw"),
++        ]
++    )
++    library_dirs.append(os.path.join(prefix, "lib"))
++    libraries[:] = ["raw_r"]
++
++
++def has_libraw_config_header(include_dir):
++    return os.path.isdir(include_dir) and "libraw_config.h" in os.listdir(include_dir)
++
 +
  def clone_submodules():
-     if not os.path.exists('external/LibRaw/README.md'):
-         print('LibRaw git submodule is not cloned yet, will invoke "git submodule update --init" now')
+     if not os.path.exists("external/LibRaw/libraw/libraw.h"):
+         print(
+@@ -310,9 +335,12 @@
+     libraw_config_found = True
+ else:
+     # Use system library
+-    use_pkg_config()
++    if isWindows:
++        use_conda_libraw()
++    else:
++        use_pkg_config()
+     for include_dir in include_dirs:
+-        if "libraw_config.h" in os.listdir(include_dir):
++        if has_libraw_config_header(include_dir):
+             libraw_config_found = True
+             break
+ 
 -- 
-2.49.0.windows.1
-
+2.49.0
