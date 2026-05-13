@@ -32,10 +32,13 @@ requirements:
     - scikit-image
 
 test:
+  files:
+    - run_test.py
   imports:
     - rawpy
   commands:
     - pip check
+    - python run_test.py
   requires:
     - pip
     - python
