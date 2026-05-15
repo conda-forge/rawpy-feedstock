@@ -9,6 +9,8 @@ Package license: MIT
 
 Summary: RAW image processing for Python, a wrapper for libraw
 
+Development: https://github.com/letmaik/rawpy
+
 Current build status
 ====================
 
