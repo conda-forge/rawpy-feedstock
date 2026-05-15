@@ -1,0 +1,66 @@
+schema_version: 1
+
+context:
+  name: rawpy
+  version: "0.27.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/letmaik/rawpy/archive/v${{ version }}.tar.gz
+  sha256: b358436281cb462e612f0fb363530de1ccaa1447fe53de3df3552be53aeccd0d
+  patches:
+    - patches/0001-Fix-include-path.patch
+
+build:
+  number: 0
+  script:
+    - if: unix
+      then: bash "${RECIPE_DIR}/build.sh"
+    - if: win
+      then: call "%RECIPE_DIR%\\build.bat"
+
+requirements:
+  build:
+    - ${{ compiler("cxx") }}
+    - ${{ stdlib("c") }}
+    - pkg-config
+  host:
+    - cython
+    - libraw
+    - numpy
+    - pip
+    - python
+    - setuptools
+  run:
+    - numpy
+    - python
+    - scikit-image
+
+tests:
+  - python:
+      imports:
+        - rawpy
+  - script:
+      - pip check
+      - python run_test.py
+    files:
+      recipe:
+        - run_test.py
+    requirements:
+      run:
+        - pip
+        - python
+
+about:
+  homepage: https://github.com/letmaik/rawpy
+  repository: https://github.com/letmaik/rawpy
+  summary: RAW image processing for Python, a wrapper for libraw
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - jeongseok-meta
