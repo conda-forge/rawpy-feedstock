@@ -15,7 +15,7 @@ source:
     - patches/0001-Fix-include-path.patch
 
 build:
-  number: 0
+  number: 1
   script:
     - if: unix
       then: bash "${RECIPE_DIR}/build.sh"
