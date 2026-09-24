@@ -47,7 +47,6 @@ requirements:
   run:
     - numpy
     - python
-    - scikit-image
 
 tests:
   - python:
@@ -72,5 +71,6 @@ about:
   license_file: LICENSE
 
 extra:
+  feedstock-name: rawpy
   recipe-maintainers:
     - jeongseok-meta
