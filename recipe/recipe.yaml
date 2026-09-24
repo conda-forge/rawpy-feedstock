@@ -15,7 +15,7 @@ source:
     - patches/0001-Fix-include-path.patch
 
 build:
-  number: 0
+  number: 1
   script:
     - if: unix
       then: bash "${RECIPE_DIR}/build.sh"
@@ -47,7 +47,6 @@ requirements:
   run:
     - numpy
     - python
-    - scikit-image
 
 tests:
   - python:
@@ -72,5 +71,6 @@ about:
   license_file: LICENSE
 
 extra:
+  feedstock-name: rawpy
   recipe-maintainers:
     - jeongseok-meta
