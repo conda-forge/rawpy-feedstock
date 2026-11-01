@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: rawpy
-  version: "0.27.1"
+  version: "0.28.0"
 
 package:
   name: ${{ name|lower }}
@@ -10,12 +10,12 @@ package:
 
 source:
   url: https://github.com/letmaik/rawpy/archive/v${{ version }}.tar.gz
-  sha256: b0e9af3e44a7bb2e66c6c9b4c8e397d0fa2ba307e0e8dc76d2de7ad76d84cba6
+  sha256: d98c41129615090c5147deafbd7ee58325a1f54e0ad85ddf812edcd63f8139d5
   patches:
     - patches/0001-Fix-include-path.patch
 
 build:
-  number: 1
+  number: 0
   script:
     - if: unix
       then: bash "${RECIPE_DIR}/build.sh"
